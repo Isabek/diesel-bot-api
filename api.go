@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -32,6 +31,20 @@ func main() {
 
 func messages() {
 	for message := range dieselBot.Messages {
-		fmt.Println(message)
+		if message.Text == "/searchflat" {
+			dieselBot.SendMessage(message.Sender, "Количество комнат в квартире?", &telebot.SendOptions{
+				ReplyMarkup: telebot.ReplyMarkup{
+					ForceReply:         true,
+					Selective:          true,
+					OneTimeKeyboard:    true,
+					ResizeKeyboard:     true,
+					HideCustomKeyboard: true,
+					CustomKeyboard: [][]string{
+						[]string{"1", "2", "3"},
+						[]string{"1-2", "1-3", "3-..."},
+					},
+				},
+			})
+		}
 	}
 }
