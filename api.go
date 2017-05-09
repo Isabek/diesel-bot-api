@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/tucnak/telebot"
+	"github.com/vteremasov/diesel-scraper"
 )
 
 var dieselBot *telebot.Bot
@@ -45,6 +46,13 @@ func messages() {
 					},
 				},
 			})
+		} else {
+			posts := diesel_scraper.Scrape(1)
+
+			//TODO: Also should send body p.Body and images p,Images
+			for _, p := range posts {
+				dieselBot.SendMessage(message.Sender, p.Link, &telebot.SendOptions{})
+			}
 		}
 	}
 }
