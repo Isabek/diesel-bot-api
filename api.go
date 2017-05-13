@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	_ "github.com/vteremasov/diesel-scraper"
 
@@ -15,12 +16,17 @@ const (
 
 func main() {
 
-	token := "201936101:AAF2-w_JWM4B3COqv6nsWXfwPl4vsIn4QiM"
+	token := os.Getenv("SECRET")
+	if token == "" {
+		log.Panic("Please run this program with SECRET parameter")
+	}
+
 	bot, err := tg.NewBotAPI(token)
 	if err != nil {
 		panic(err)
 	}
 	bot.Debug = !true
+
 	log.Printf("Authorization account %s", bot.Self.UserName)
 
 	u := tg.NewUpdate(0)
